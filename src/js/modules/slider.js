@@ -17,7 +17,7 @@ export default class Slider{
         try{
             this.hanson.style.opacity = "0";
 
-            if(n === 3){
+            if(n == 3){
                 this.hanson.classList.add('animated');
                 setTimeout(() => {
                     this.hanson.style.opacity = "1";
@@ -42,7 +42,7 @@ export default class Slider{
 
     render(){
         try{
-            this.hanson = document.querySelector(".henson");
+            this.hanson = document.querySelector(".hanson");
         }catch(e){}
 
         this.btns.forEach(item => {
