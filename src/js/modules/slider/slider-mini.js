@@ -24,7 +24,6 @@ export default class MiniSlider extends Slider{
             this.slides[0].querySelector('.card__controls-arrow').style.opacity = '1';
         }
     }
-
     nextSlide(){   
         if(this.prev.parentNode === this.container){
             this.container.insertBefore(this.slides[0], this.prev);
@@ -74,5 +73,13 @@ export default class MiniSlider extends Slider{
             this.activateAnimation();
         }
 
+
+
+        this.bindTriggers();
+        this.decorizeSlides();
+
+        if (this.autoplay) {
+            setInterval(() => this.nextSlide(), 5000);
+        }
     }
 }
