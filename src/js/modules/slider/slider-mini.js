@@ -24,6 +24,7 @@ export default class MiniSlider extends Slider{
             this.slides[0].querySelector('.card__controls-arrow').style.opacity = '1';
         }
     }
+
     nextSlide(){   
         if(this.prev.parentNode === this.container){
             this.container.insertBefore(this.slides[0], this.prev);
@@ -52,13 +53,14 @@ export default class MiniSlider extends Slider{
     this.paused = setInterval(() => this.nextSlide(), 5000);
    }
 
-    init(){
+    init() {
         this.container.style.cssText = `
             display: flex;
             flex-wrap: wrap;
             overflow: hidden;
             align-items: flex-start;
         `;
+
         this.bindTriggers();
         this.decorizeSlides();
 
@@ -72,8 +74,6 @@ export default class MiniSlider extends Slider{
             this.prev.addEventListener('mouseleave', () => this.activateAnimation());
             this.activateAnimation();
         }
-
-
 
         this.bindTriggers();
         this.decorizeSlides();

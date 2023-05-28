@@ -11,7 +11,6 @@ export default class Difference {
     bindTriggers(container, items, counter){
         container.querySelector('.plus').addEventListener('click', () => {
             if(counter !== items.length - 2){
-
                 items[counter].style.display = 'flex';
                 counter++;
             } else {
