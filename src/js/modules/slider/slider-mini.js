@@ -74,12 +74,7 @@ export default class MiniSlider extends Slider{
             this.prev.addEventListener('mouseleave', () => this.activateAnimation());
             this.activateAnimation();
         }
-
         this.bindTriggers();
         this.decorizeSlides();
-
-        if (this.autoplay) {
-            setInterval(() => this.nextSlide(), 5000);
-        }
     }
 }
