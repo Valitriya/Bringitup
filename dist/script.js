@@ -111,6 +111,11 @@ window.addEventListener('DOMContentLoaded', () => {
     container: '.page'
   });
   slider.render();
+  const modulePageSlider = new _modules_slider_slider_main__WEBPACK_IMPORTED_MODULE_0__["default"]({
+    container: '.moduleapp',
+    btns: '.next'
+  });
+  modulePageSlider.render();
   const showUpSlider = new _modules_slider_slider_mini__WEBPACK_IMPORTED_MODULE_1__["default"]({
     container: '.showup__content-slider',
     prev: '.showup__prev',
@@ -417,6 +422,8 @@ __webpack_require__.r(__webpack_exports__);
 class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(btns) {
     super(btns);
+    this.nextmodule = document.querySelectorAll('.nextmodule');
+    this.prevmodule = document.querySelectorAll('.prevmodule');
   }
   showSlides(n) {
     if (n > this.slides.length) {
@@ -445,6 +452,18 @@ class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
   plusSlides(n) {
     this.showSlides(this.slideIndex += n);
   }
+  toggleButtons(btnsmodul, n) {
+    btnsmodul.forEach(btn => {
+      btn.addEventListener("click", e => {
+        if (typeof e.stopPropagation == "function") {
+          e.stopPropagation();
+        }
+        ;
+        e.preventDefault();
+        this.plusSlides(n);
+      });
+    });
+  }
   bindTriggers() {
     this.btns.forEach(item => {
       item.addEventListener('click', () => {
@@ -456,30 +475,16 @@ class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.showSlides(this.slideIndex);
       });
     });
-    document.querySelectorAll('.prevmodule').forEach(item => {
-      item.addEventListener('click', e => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.plusSlides(-1);
-      });
-    });
-    document.querySelectorAll('.nextmodule').forEach(item => {
-      item.addEventListener('click', e => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.plusSlides(1);
-      });
-    });
+    this.toggleButtons(this.prevmodule, -1);
+    this.toggleButtons(this.nextmodule, 1);
   }
   render() {
     try {
-      if (this.container) {
-        try {
-          this.hanson = document.querySelector('.hanson');
-        } catch (e) {}
-        this.showSlides(this.slideIndex);
-        this.bindTriggers();
-      }
+      try {
+        this.hanson = document.querySelector('.hanson');
+      } catch (e) {}
+      this.showSlides(this.slideIndex);
+      this.bindTriggers();
     } catch (e) {}
   }
 }
@@ -587,6 +592,8 @@ class Slider {
       btns = null,
       next = null,
       prev = null,
+      nextmodule = null,
+      prevmodule = null,
       activeClass = '',
       animate = false,
       autoplay = false
@@ -598,6 +605,8 @@ class Slider {
     this.btns = document.querySelectorAll(btns);
     this.prev = document.querySelector(prev);
     this.next = document.querySelector(next);
+    this.nextModule = document.querySelectorAll(nextmodule);
+    this.prevModule = document.querySelectorAll(prevmodule);
     this.activeClass = activeClass;
     this.animate = animate;
     this.autoplay = autoplay;
