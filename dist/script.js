@@ -140,8 +140,8 @@ window.addEventListener('DOMContentLoaded', () => {
     activeClass: 'feed__item-active'
   });
   feedSlider.init();
-  const player = new _modules_playVideo__WEBPACK_IMPORTED_MODULE_2__["default"]('.showup .play', '.overlay');
-  player.init();
+  new _modules_playVideo__WEBPACK_IMPORTED_MODULE_2__["default"]('.showup .play', '.overlay').init();
+  new _modules_playVideo__WEBPACK_IMPORTED_MODULE_2__["default"]('.module__video-item .play', '.overlay').init();
   new _modules_difference__WEBPACK_IMPORTED_MODULE_3__["default"]('.officerold', '.officernew', '.officer__card-item').init();
   new _modules_forms__WEBPACK_IMPORTED_MODULE_4__["default"]('.form').init();
 });
@@ -332,28 +332,19 @@ class VideoPlayer {
     this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
   }
   bindTriggers() {
-    this.btns.forEach((btn, i) => {
-      try {
-        const blockedElem = btn.closest('.module__video-item').nextElementSibling;
-        if (i % 2 == 0) {
-          blockedElem.setAttribute('data-disabled', 'true');
-        }
-      } catch (e) {}
+    this.btns.forEach(btn => {
       btn.addEventListener('click', () => {
-        if (!btn.closest('.module__video-item') || btn.closest('.module__video-item').getAttribute('data-disabled') !== 'true') {
-          this.activeBtn = btn;
-          if (document.querySelector('iframe#frame')) {
-            this.overlay.style.display = 'flex';
-            if (this.path !== btn.getAttribute('data-url')) {
-              this.path = btn.getAttribute('data-url');
-              this.player.loadVideoById({
-                videoId: this.path
-              });
-            }
-          } else {
+        if (document.querySelector('iframe#frame')) {
+          this.overlay.style.display = 'flex';
+          if (this.path !== btn.getAttribute('data-url')) {
             this.path = btn.getAttribute('data-url');
-            this.createPlayer(this.path);
+            this.player.loadVideoById({
+              videoId: this.path
+            });
           }
+        } else {
+          this.path = btn.getAttribute('data-url');
+          this.createPlayer(this.path);
         }
       });
     });
@@ -376,22 +367,19 @@ class VideoPlayer {
     this.overlay.style.display = 'flex';
   }
   onPlayerStateChange(state) {
-    try {
-      const blockedElem = this.activeBtn.closest('.module__video-item').nextElementSibling;
-      const playBtn = this.activeBtn.querySelector('svg').cloneNode(true);
-      if (state.data === 0) {
-        if (blockedElem.querySelector('.play__circle').classList.contains('closed')) {
-          blockedElem.querySelector('.play__circle').classList.remove('closed');
-          blockedElem.querySelector('svg').remove();
-          blockedElem.querySelector('.play__circle').appendChild(playBtn);
-          blockedElem.querySelector('.play__text').textContent = 'play video';
-          blockedElem.querySelector('.play__text').classList.remove('attention');
-          blockedElem.style.opacity = 1;
-          blockedElem.style.filter = 'none';
-          blockedElem.setAttribute('data-disabled', 'false');
-        }
+    const blockedElem = this.activeBtn.closest('.module__video-item').nextElementSibling;
+    const playBtn = this.activeBtn.querySelector('svg').cloneNode(true);
+    if (state.data === 0) {
+      if (blockedElem.querySelector('.play__circle').classList.contains('closed')) {
+        blockedElem.querySelector('.play__circle').classList.remove('closed');
+        blockedElem.querySelector('svg').remove();
+        blockedElem.querySelector('.play__circle').appendChild(playBtn);
+        blockedElem.querySelector('.play__text').textContent = 'play video';
+        blockedElem.querySelector('.play__text').classList.remove('attention');
+        blockedElem.style.opacity = 1;
+        blockedElem.style.filter = 'none';
       }
-    } catch (e) {}
+    }
   }
   init() {
     if (this.btns.length > 0) {
